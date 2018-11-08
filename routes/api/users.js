@@ -61,6 +61,7 @@ router.post("/register", (req, res) => {
 // @access  Public
 router.post("/login", (req, res) => {
   const { errors, isValid } = validateLogin(req.body);
+  console.log(req.body);
   if (!isValid) {
     return res.status(400).json({ errors });
   }
