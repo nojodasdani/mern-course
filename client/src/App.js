@@ -15,11 +15,12 @@ import Footer from "./components/layout/Footer";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import Dashboard from "./components/dashboard/Dashboard";
+//profile components
 import CreateProfile from "./components/create-profile/CreateProfile";
 import EditProfile from "./components/edit-profile/EditProfile";
-
+import AddExperience from "./components/add-credentials/AddExperience";
+import AddEducation from "./components/add-credentials/AddEducation";
 import "./App.css";
-import { decode } from "punycode";
 
 //Check for token
 if (localStorage.jwtToken) {
@@ -31,7 +32,7 @@ if (localStorage.jwtToken) {
   store.dispatch(setCurrentUser(decoded));
   //check for expired token
   const currentTime = Date.now() / 1000;
-  if (decode.exp < currentTime) {
+  if (decoded.exp < currentTime) {
     store.dispatch(logoutUser());
     //TODO: Clear current profile
     store.dispatch(clearCurrentProfile());
@@ -66,6 +67,20 @@ class App extends Component {
                   exact
                   path="/edit-profile"
                   component={EditProfile}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/add-experience"
+                  component={AddExperience}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/add-education"
+                  component={AddEducation}
                 />
               </Switch>
             </div>
