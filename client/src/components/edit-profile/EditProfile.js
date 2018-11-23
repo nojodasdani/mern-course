@@ -56,11 +56,21 @@ class EditProfile extends Component {
         : "";
       profile.bio = !isEmpty(profile.bio) ? profile.bio : "";
       profile.social = !isEmpty(profile.social) ? profile.social : {};
-      profile.twitter = !isEmpty(profile.twitter) ? profile.twitter : "";
-      profile.facebook = !isEmpty(profile.facebook) ? profile.facebook : "";
-      profile.linkedin = !isEmpty(profile.linkedin) ? profile.linkedin : "";
-      profile.youtube = !isEmpty(profile.youtube) ? profile.youtube : "";
-      profile.instagram = !isEmpty(profile.instagram) ? profile.instagram : "";
+      profile.twitter = !isEmpty(profile.social.twitter)
+        ? profile.social.twitter
+        : "";
+      profile.facebook = !isEmpty(profile.social.facebook)
+        ? profile.social.facebook
+        : "";
+      profile.linkedin = !isEmpty(profile.social.linkedin)
+        ? profile.social.linkedin
+        : "";
+      profile.youtube = !isEmpty(profile.social.youtube)
+        ? profile.social.youtube
+        : "";
+      profile.instagram = !isEmpty(profile.social.instagram)
+        ? profile.social.instagram
+        : "";
 
       //set component fields state
       this.setState({
@@ -75,7 +85,8 @@ class EditProfile extends Component {
         twitter: profile.twitter,
         facebook: profile.facebook,
         linkedin: profile.linkedin,
-        youtube: profile.youtube
+        youtube: profile.youtube,
+        instagram: profile.instagram
       });
     }
   }
