@@ -140,11 +140,20 @@ export const getProfiles = () => dispatch => {
     );
 };
 
-//get profiles
+//get profile by handle
 export const getProfileByHandle = handle => dispatch => {
   dispatch(setProfileLoading());
   axios
     .get(`/api/profile/handle/${handle}`)
+    .then(res => dispatch({ type: GET_PROFILE, payload: res.data }))
+    .catch(err => dispatch({ type: GET_PROFILE, payload: null }));
+};
+
+//get profile by id
+export const getProfileById = id => dispatch => {
+  //dispatch(setProfileLoading());
+  axios
+    .get(`/api/profile/user/${id}`)
     .then(res => dispatch({ type: GET_PROFILE, payload: res.data }))
     .catch(err => dispatch({ type: GET_PROFILE, payload: null }));
 };

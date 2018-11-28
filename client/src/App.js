@@ -1,48 +1,50 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Provider } from "react-redux";
-import store from "./store";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import { clearCurrentProfile } from "./actions/profileActions";
+
+import { Provider } from "react-redux";
+import store from "./store";
+
 import PrivateRoute from "./components/common/PrivateRoute";
-//layout components
+
 import Navbar from "./components/layout/Navbar";
-import Landing from "./components/layout/Landing";
 import Footer from "./components/layout/Footer";
-//auth components
+import Landing from "./components/layout/Landing";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import Dashboard from "./components/dashboard/Dashboard";
-//profile components
 import CreateProfile from "./components/create-profile/CreateProfile";
 import EditProfile from "./components/edit-profile/EditProfile";
 import AddExperience from "./components/add-credentials/AddExperience";
 import AddEducation from "./components/add-credentials/AddEducation";
 import Profiles from "./components/profiles/Profiles";
 import Profile from "./components/profile/Profile";
+import Posts from "./components/posts/Posts";
+import Post from "./components/post/Post";
 import NotFound from "./components/not-found/NotFound";
-//post components
 
 import "./App.css";
-import Posts from "./components/posts/Posts";
 
-//Check for token
+// Check for token
 if (localStorage.jwtToken) {
-  const token = localStorage.jwtToken;
-  setAuthToken(token);
-  //decode token and get user info and expiration
-  const decoded = jwt_decode(token);
-  //set user and isAuthenticated
+  // Set auth token header auth
+  setAuthToken(localStorage.jwtToken);
+  // Decode token and get user info and exp
+  const decoded = jwt_decode(localStorage.jwtToken);
+  // Set user and isAuthenticated
   store.dispatch(setCurrentUser(decoded));
-  //check for expired token
+
+  // Check for expired token
   const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
+    // Logout user
     store.dispatch(logoutUser());
-    //TODO: Clear current profile
+    // Clear current Profile
     store.dispatch(clearCurrentProfile());
-    //redirect to login
+    // Redirect to login
     window.location.href = "/login";
   }
 }
@@ -93,6 +95,9 @@ class App extends Component {
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/feed" component={Posts} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/post/:id" component={Post} />
               </Switch>
               <Route exact path="/not-found" component={NotFound} />
             </div>
